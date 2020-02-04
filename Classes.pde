@@ -79,7 +79,7 @@ abstract class Mob extends Entity {
   Point pv = new Point(0,0,0);
   Point r = new Point(0,0,0);
   SpringValue sca = new SpringValue(1);
-  Point ang;
+  Point ang = new Point();
   Point rang = new Point(0,0,0);
   Point av = new Point(0,0,0);
   float w = 0;
