@@ -163,3 +163,36 @@ class FillStyleSetVMult extends Event {
 		fillStyle.setMass(vMult);
 	}
 }
+
+class Event {
+  boolean finished = false;
+  boolean ending = false;
+  boolean spawned = false;
+  float time;
+  float timeEnd;
+  float timeEnding;
+
+  Event() {}
+
+  Event(float time, float timeEnd) {
+    this.time = time;
+    this.timeEnd = timeEnd;
+    this.timeEnding = timeEnd;
+  }
+
+  Event (float time, float timeEnding, float timeEnd) {
+    this.time = time;
+    this.timeEnding = timeEnding;
+    this.timeEnd = timeEnd;
+  }
+
+  void spawn() {}
+  
+  void update() {}
+
+  void render() {}
+
+  void ending() {}
+
+  void end() {}
+}
