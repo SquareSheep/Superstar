@@ -16,14 +16,38 @@ static String songName = "../Music/superstar.mp3";
 IColor defaultFill = new IColor(222,125,222,255);
 IColor defaultStroke = new IColor(255,255,255,255);
 
-float W = 150;
-int R = 5;
-float amp = 0.1;
+// float W = 150;
+// int R = 5;
+// float amp = 0.1;
 void render() {
+	if (timer.beat) println(song.position() + "," + (int)currBeat);
+	if (timer.beat) {
+		if (currBeat >= 43) {
+			for (int i = 0 ; i < mobs.size() ; i ++) {
+				Spotlight mob = (Spotlight) mobs.get(i);
+				if (random(1) < 0.7) {
+					mob.on = true;
+					mob.av.reset(random(-0.01,0.01),0,random(-0.01,0.01));
+					mob.ang.P.set(random(-1,1)-PI/2,0,random(-1,1));
+				} else {
+					mob.on = false;
+					mob.av.P.set(0,0,0);
+					mob.ang.P.set(-PI/2,0,0);
+				}
+			}
+		}
+		float sc = 100;
+		for (int i = 0 ; i < mobs.size() ; i ++) {
+			Spotlight mob = (Spotlight) mobs.get(i);
+			mob.fillStyleSetC(random(75,255),random(75,255),random(75,255),255, 
+				random(-sc,sc),random(-sc,sc),random(-sc,sc),0);
+			mob.fillStyle.setC(random(175,255),random(175,255),random(175,255),mob.fillStyle.a.x);
+		}
+	}
+	/*
 	noFill();
 	defaultStroke.strokeStyle();
 	box(W*R*2+W,W*R*2+W,W*R*2+W);
-	if (timer.beat) println(song.position() + "," + (int)currBeat);
 	cam.ang.P.y -= 0.003;
 	if (timer.beat) {
 		float sc = 200;
@@ -77,14 +101,21 @@ void render() {
 		// 	}
 		// }
 	}
+	*/
 }
 
 void setSketch() {
 	front = new PVector(de*2,de,de*0.2);
 	back = new PVector(-de*2,-de,-de*2);
-
-	// int x = 25; int y = 25;
-	// float w = 150; float h = 15;
+	
+	int x = 5; int y = 5;
+	float w = 150; float d = w*3;
+	for (float i = 0 ; i < x ; i ++) {
+		for (float k = 0 ; k < y ; k ++) {
+			Spotlight light = new Spotlight((i-x/2)*d,(k-y/2)*d,0, -PI/2,0,0, w, (i*x+k)/x/y*binCount);
+			mobs.add(light);
+		}
+	}
 	// for (float i = 0 ; i < x ; i ++) {
 	// 	for (float k = 0 ; k < y ; k ++) {
 	// 		Tile tile = new Tile((i-x/2)*w,h,(k-y/2)*w, w,h,w);
@@ -93,13 +124,4 @@ void setSketch() {
 	// 		mobs.add(tile);
 	// 	}
 	// }
-	for (int i = 0 ; i < 35 ; i ++) {
-		Cube cube = new Cube(random(-R,R)*W,random(-R,R)*W,random(-R,R)*W,W);
-		for (int k = 0 ; k < cube.tiles.length ; k ++) {
-			cube.tiles[k].w.pm.y = W*0.005;
-			cube.tiles[k].w.mass = 15;
-		}
-		cube.setIndex((float)i/50*binCount);
-		mobs.add(cube);
-	}
 }

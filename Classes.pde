@@ -274,7 +274,7 @@ class IColor extends AColor {
   }
 
   IColor(float rc, float gc, float bc, float ac) {
-    this(rc,gc,bc,ac, 0,0,0,0, 0);
+    this(rc,gc,bc,ac, 0,0,0,0, -1);
   }
 
   IColor() {
