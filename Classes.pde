@@ -173,10 +173,6 @@ class Point {
     return new Point(p.copy(), vMult, mass);
   }
 
-  void setM(float x, float y, float z) {
-    pm.set(x, y, z);
-  }
-
   void setM(float x, float y, float z, float index) {
     pm.set(x, y, z);
     this.index = (int)index;

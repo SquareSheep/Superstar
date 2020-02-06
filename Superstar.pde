@@ -12,7 +12,7 @@ float avg;
 ArrayList<Event> events = new ArrayList<Event>();
 
 // Used to store global animation entities
-ArrayList<Entity> mobs = new ArrayList<Entity>();
+ArrayList<TileObject> mobs = new ArrayList<TileObject>();
 
 Camera cam;
 static int de;
@@ -88,7 +88,7 @@ void update() {
 
   updateEvents();
 
-  for (Entity mob : mobs) {
+  for (TileObject mob : mobs) {
     mob.update();
   }
   for (int i = 0 ; i < mobs.size() ; i ++) {

@@ -6,8 +6,7 @@ class Spotlight extends TileObject {
 	boolean on = false;
 
 	Spotlight(float x, float y, float z, float ax, float ay, float az, float w, float index) {
-		super(x,y,z,w,9);
-		ang.reset(ax,ay,az);
+		super(x,y,z,ax,ay,az,w,9);
 		for (int i = 0 ; i < 5 ; i ++) {
 			tiles[i].r.reset(0,-w/2,0);
 		}
@@ -106,16 +105,56 @@ class Cube extends TileObject {
 	}
 }
 
+class Tail extends TileObject {
+	Point p;
+	float tick = 0;
+
+	Tail(float x, float y, float z, float ax, float ay, float az, float w, int num) {
+		super(x,y,z,ax,ay,az,w,num);
+		p = new Point(x,y,z);
+		for (int i = 0 ; i < num ; i ++) {
+			tiles[i].p.reset(x,y+i*w,z);
+			tiles[i].ang.reset(-PI/2,0,-PI/2);
+			tiles[i].w.setM(0,w*0.01,0, (float)i/num*binCount);
+			tiles[i].fillStyle.reset(random(75,155),random(75,155),random(75,155),255,(1-(float)i/num)*1,0.5,((float)i/num)*1,0,(float)i/num*binCount);
+		}
+	}
+
+	Tail(float x, float y, float z, float w, int num) {
+		this(x,y,z,0,0,0,w,num);
+	}
+
+	void update() {
+		super.update();
+		p.update();
+		tick += avg/1000;
+		if (timer.beat) tick = tick%PI+PI;
+		tiles[0].p.P.set(p.p.x + sin(tick)*avg*6,p.p.y,p.p.z);
+		for (int i = 1 ; i < tiles.length ; i ++) {
+			if (i%10 == 0) {
+				tiles[i].p.P.set(tiles[i-1].p.p.x + sin(tick+i/10*PI)*avg*6,p.p.y,p.p.z);
+			} else {
+				tiles[i].p.P.x = tiles[i-1].p.p.x;
+			}
+		}
+	}
+}
+
 class TileObject extends Mob {
 	Tile[] tiles;
 
-	TileObject(float x, float y, float z, float w, int num) {
+	TileObject(float x, float y, float z, float ax, float ay, float az, float w, int num) {
 		this.p = new Point(x,y,z);
+		ang.reset(ax,ay,az);
 		this.w = w;
 		tiles = new Tile[num];
 		for (int i = 0 ; i < num ; i ++) {
 			tiles[i] = new Tile(0,0,0,w);
 		}
+	}
+
+	TileObject(float x, float y, float z, float w, int num) {
+		this(x,y,z,0,0,0,w,num);
 	}
 
 	void update() {
@@ -186,7 +225,7 @@ class Tile extends MobF {
 
 	void render() {
 		setDraw();
-		translate(0,-w.p.y/2,0);
+		//translate(0,-w.p.y/2,0);
 		box(w.p.x,w.p.y,w.p.z);
 		pop();
 	}

@@ -16,12 +16,15 @@ static String songName = "../Music/superstar.mp3";
 IColor defaultFill = new IColor(222,125,222,255);
 IColor defaultStroke = new IColor(255,255,255,255);
 
+Spotlight[] lights;
+Tile[] tiles;
+
 // float W = 150;
 // int R = 5;
 // float amp = 0.1;
 void render() {
 	if (timer.beat) println(song.position() + "," + (int)currBeat);
-	if (timer.beat) {
+	/*if (timer.beat) {
 		if (currBeat >= 43) {
 			for (int i = 0 ; i < mobs.size() ; i ++) {
 				Spotlight mob = (Spotlight) mobs.get(i);
@@ -44,7 +47,6 @@ void render() {
 			mob.fillStyle.setC(random(175,255),random(175,255),random(175,255),mob.fillStyle.a.x);
 		}
 	}
-	/*
 	noFill();
 	defaultStroke.strokeStyle();
 	box(W*R*2+W,W*R*2+W,W*R*2+W);
@@ -108,9 +110,9 @@ void setSketch() {
 	front = new PVector(de*2,de,de*0.2);
 	back = new PVector(-de*2,-de,-de*2);
 	
-	int x = 5; int y = 5;
-	float w = 150; float d = w*3;
-	for (float i = 0 ; i < x ; i ++) {
+	// int x = 5; int y = 5;
+	// float w = 150; float d = w*3;
+	/*for (float i = 0 ; i < x ; i ++) {
 		for (float k = 0 ; k < y ; k ++) {
 			Spotlight light = new Spotlight((i-x/2)*d,(k-y/2)*d,0, -PI/2,0,0, w, (i*x+k)/x/y*binCount);
 			mobs.add(light);
@@ -124,4 +126,10 @@ void setSketch() {
 	// 		mobs.add(tile);
 	// 	}
 	// }
+	*/
+	int num = 5;
+	float W = de*1.2;
+	for (float i = 0 ; i < num ; i ++) {
+		mobs.add(new Tail(de*0.2+(i/num-0.5)*W,-de*0.5,0, 50, 50));
+	}
 }
