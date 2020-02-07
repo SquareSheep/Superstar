@@ -24,6 +24,7 @@ Tile[] tiles;
 // float amp = 0.1;
 void render() {
 	if (timer.beat) println(song.position() + "," + (int)currBeat);
+	cam.ang.P.add(-0.003,0.01,0.002);
 	/*if (timer.beat) {
 		if (currBeat >= 43) {
 			for (int i = 0 ; i < mobs.size() ; i ++) {
@@ -127,9 +128,8 @@ void setSketch() {
 	// 	}
 	// }
 	*/
-	int num = 5;
-	float W = de*1.2;
+	int num = 10;
 	for (float i = 0 ; i < num ; i ++) {
-		mobs.add(new Tail(de*0.2+(i/num-0.5)*W,-de*0.5,0, 50, 50));
+		mobs.add(new Tail(0,-15*50,0, 0,i/num*2*PI,0, 75, 50));
 	}
 }

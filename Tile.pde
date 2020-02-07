@@ -127,12 +127,12 @@ class Tail extends TileObject {
 	void update() {
 		super.update();
 		p.update();
-		tick += avg/1000;
+		tick += avg/1500;
 		if (timer.beat) tick = tick%PI+PI;
-		tiles[0].p.P.set(p.p.x + sin(tick)*avg*6,p.p.y,p.p.z);
+		tiles[0].p.P.set(p.p.x + sin(tick)*avg*3,p.p.y,p.p.z);
 		for (int i = 1 ; i < tiles.length ; i ++) {
 			if (i%10 == 0) {
-				tiles[i].p.P.set(tiles[i-1].p.p.x + sin(tick+i/10*PI)*avg*6, tiles[i].p.p.y, tiles[i-1].p.p.z);
+				tiles[i].p.P.set(tiles[i-1].p.p.x + sin(tick+i/10*PI)*avg*3, tiles[i].p.p.y, tiles[i-1].p.p.z);
 			} else {
 				tiles[i].p.P.x = tiles[i-1].p.p.x;
 			}
