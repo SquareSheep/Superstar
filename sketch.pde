@@ -129,7 +129,10 @@ void setSketch() {
 	// }
 	*/
 	int num = 10;
+	float d = de*0.4;
 	for (float i = 0 ; i < num ; i ++) {
-		mobs.add(new Tail(0,-15*50,0, 0,i/num*2*PI,0, 75, 50));
+		for (float k = 0 ; k < 3 ; k ++) {
+			mobs.add(new Tail(sin(i/num*2*PI)*d*k,-15*50,cos(i/num*2*PI)*d*k, 0,i/num*2*PI,0, 75, 50));
+		}
 	}
 }
