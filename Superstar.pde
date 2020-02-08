@@ -31,12 +31,12 @@ char keyR;
 char keyP;
 
 void setup() {
-  size(1000,1000,P3D);
+  size(1050,1050,P3D);
   de = (int)(width*0.5+height*0.5);
   front = new PVector(de*2,de,de*0.2);
   back = new PVector(-de*2,-de,-de*2);
 
-  cam = new Camera(width/2,height*0.9,-de*1.6, -0.12,0,0);
+  cam = new Camera(width/2,height*1.1,-de*1.6, -0.12,0,0);
 
   textSize(de/10);
   rectMode(CENTER);

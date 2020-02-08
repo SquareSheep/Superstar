@@ -23,7 +23,7 @@ Tail[] tails;
 
 void render() {
 	if (timer.beat) println(song.position() + "," + (int)currBeat);
-	cam.ang.P.add(0.0002*cos((float)frameCount/100-PI/2),0.001*sin((float)frameCount/100-PI/2),0);
+	cam.ang.P.add(0.0002*cos((float)frameCount/100-PI/2),0.0003*sin((float)frameCount/100-PI/2),0);
 	
 	if (timer.beat) {
 		cam.ang.p.x += 0.005;
