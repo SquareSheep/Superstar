@@ -312,29 +312,31 @@ class IColor extends AColor {
   }
 
   void setMass(float mass) {
-    this.r.mass = mass;
-    this.g.mass = mass;
-    this.b.mass = mass;
-    this.a.mass = mass;
+    this.r.mass = mass; this.g.mass = mass; this.b.mass = mass; this.a.mass = mass;
   }
 
   void setM(float rm, float gm, float bm, float am) {
-    this.rm = rm;
-    this.gm = gm;
-    this.bm = bm;
-    this.am = am;
+    this.rm = rm; this.gm = gm; this.bm = bm; this.am = am;
   }
 
   void setM(float r, float g, float b, float a, float i) {
-    this.setM(r,g,b,a);
-    this.index = (int)i;
+    this.setM(r,g,b,a); this.index = (int)i;
   }
 
   void setC(float rc, float gc, float bc, float ac) {
-    this.rc = (int)rc; r.X = rc;
-    this.gc = (int)gc; g.X = gc;
-    this.bc = (int)bc; b.X = bc;
-    this.ac = (int)ac; a.X = ac;
+    this.rc = (int)rc; r.X = rc; this.gc = (int)gc; g.X = gc; this.bc = (int)bc; b.X = bc; this.ac = (int)ac; a.X = ac;
+  }
+
+  void setM(float minM, float maxM, float i) {
+    this.rm = random(minM,maxM); this.gm = random(minM,maxM); this.bm = random(minM,maxM); this.index = (int)i;
+  }
+
+  void setM(float minM, float maxM) {
+    this.rm = random(minM,maxM); this.gm = random(minM,maxM); this.bm = random(minM,maxM);
+  }
+
+  void setC(float minM, float maxM) {
+    this.rc = (int)random(minM,maxM); this.gc = (int)random(minM,maxM); this.bc = (int)random(minM,maxM);
   }
 
   void set(float rc, float gc, float bc, float ac, float rm, float gm, float bm, float am, float index) {

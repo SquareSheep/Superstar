@@ -2,7 +2,7 @@ float spotlightfAmp = 0.5;
 float spotlightaAmp = 0.01;
 class Spotlight extends TileObject {
 	SpringValue tilt;
-	IColor fillStyle = new IColor(255,255,255,150);
+	IColor fillStyle = new IColor(255,255,255,125);
 	boolean on = false;
 
 	Spotlight(float x, float y, float z, float ax, float ay, float az, float w, float index) {
@@ -25,6 +25,10 @@ class Spotlight extends TileObject {
 			tiles[i].rang.reset(0,(i-5)*PI/2,0);
 		}
 		setIndex(index);
+	}
+
+	Spotlight(float x, float y, float z, float ax, float ay, float az, float w) {
+		this(x,y,z,ax,ay,az,w,-1);
 	}
 
 	Spotlight(float x, float y, float z, float w, float index) {
@@ -57,8 +61,8 @@ class Spotlight extends TileObject {
 		fillStyle.fillStyle();
 		noStroke();
 		translate(-w/2,-w/2,-w/2);
-		float d = -de*20;
-		float dx = tilt.x*w*5+w*2;
+		float d = -de*6;
+		float dx = tilt.x*w*5+w*4;
 		beginShape();
 		vertex(-0,0,0);
 		vertex(-dx,d,-dx);
@@ -142,9 +146,13 @@ class Tail extends TileObject {
 
 class TileObject extends Mob {
 	Tile[] tiles;
+	PVector ph; // Home position
+	PVector ah;
 
 	TileObject(float x, float y, float z, float ax, float ay, float az, float w, int num) {
 		this.p = new Point(x,y,z);
+		this.ph = new PVector(x,y,z);
+		this.ah = new PVector(ax,ay,az);
 		ang.reset(ax,ay,az);
 		this.w = w;
 		tiles = new Tile[num];
@@ -198,19 +206,36 @@ class TileObject extends Mob {
 		}
 	}
 
+	void fillStyleSetC(float minC, float maxC, float mRange) {
+		fillStyleSetC(random(minC,maxC),random(minC,maxC),random(minC,maxC),255, 
+			random(-mRange,mRange),random(-mRange,mRange),random(-mRange,mRange),0);
+	}
+
+	void fillStyleSetM(float minC, float maxC, float mRange) {
+		fillStyleSetM(random(minC,maxC),random(minC,maxC),random(minC,maxC),255, 
+			random(-mRange,mRange),random(-mRange,mRange),random(-mRange,mRange),0);
+	}
+
 	void setIndex(float index) {
 		for (int i = 0 ; i < tiles.length ; i ++) {
 			tiles[i].setIndex(index+i);
 		}
+	}
+
+	void homePosition() {
+		p.P.set(ph);
+		ang.P.set(ah);
 	}
 }
 
 float tileHMult = 0.15;
 class Tile extends MobF {
 	Point w;
+	PVector ph;
 
 	Tile(float x, float y, float z, float w, float h, float d) {
 		this.p = new Point(x,y,z);
+		this.ph = new PVector(x,y,z);
 		this.w = new Point(w,h,d);
 	}
 

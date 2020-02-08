@@ -12,7 +12,7 @@ float avg;
 ArrayList<Event> events = new ArrayList<Event>();
 
 // Used to store global animation entities
-ArrayList<TileObject> mobs = new ArrayList<TileObject>();
+ArrayList<Entity> mobs = new ArrayList<Entity>();
 
 Camera cam;
 static int de;
@@ -36,7 +36,7 @@ void setup() {
   front = new PVector(de*2,de,de*0.2);
   back = new PVector(-de*2,-de,-de*2);
 
-  cam = new Camera(width/2,height/2,-de*1.2, 0,0,0);
+  cam = new Camera(width/2,height*0.9,-de*1.6, -0.12,0,0);
 
   textSize(de/10);
   rectMode(CENTER);
@@ -88,7 +88,7 @@ void update() {
 
   updateEvents();
 
-  for (TileObject mob : mobs) {
+  for (Entity mob : mobs) {
     mob.update();
   }
   for (int i = 0 ; i < mobs.size() ; i ++) {
