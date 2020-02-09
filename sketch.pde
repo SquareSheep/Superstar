@@ -47,6 +47,8 @@ void render() {
 			tiles[i].fillStyle.setC(125,200);
 			tiles[i].fillStyle.setM(-10,10,random(binCount));
 		}
+
+		ball.beam(random(-PI,PI),0);
 	}
 }
 
@@ -77,8 +79,6 @@ void setSketch() {
 	for (int i = 0 ; i < row ; i ++) {
 		lights[i] = new Spotlight(((float)i-0.5*row)*D+D/2,back.y,-row*W, angX,0,0, w2);
 		lights[i].rang.reset(-PI/2,0,0);
-		//lights[i+row] = new Spotlight(((float)i-0.5*row)*D+D/2,back.y,row*W, angX,0,0, w2);
-		//lights[i+row].rang.reset(-PI/2,0,PI);
 		lights[i+row] = new Spotlight(-row*W,back.y,((float)i-0.5*row)*D+D/2, angX,0,0, w2);
 		lights[i+row].rang.reset(-PI/2,0,PI/2);
 		lights[i+row*2] = new Spotlight(row*W,back.y,((float)i-0.5*row)*D+D/2, angX,0,0, w2);
@@ -86,10 +86,6 @@ void setSketch() {
 		mobs.add(lights[i]);
 		mobs.add(lights[i+row]);
 		mobs.add(lights[i+row+row]);
-	}
-
-	for (int i = 0 ; i < row ; i ++) {
-		
 	}
 
 	ball = new DiscoBall(0,back.y*1.1,0,200);

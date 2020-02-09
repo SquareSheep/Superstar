@@ -39,7 +39,7 @@ class DiscoBall extends Mob {
 		pop();
 	}
 
-	void beam(float x, float y, int lifeSpan) {
+	void beam(float x, float y, float lifeSpan) {
 		int i = 0;
 		while (i < ar.size() && ar.get(i).lifeSpan != 0) {
 			i ++;
@@ -51,20 +51,24 @@ class DiscoBall extends Mob {
 		}
 	}
 
+	void beam(float x, float y) {
+		beam(x,y,fpb);
+	}
+
 	class Beam {
 		float x = 0;
 		float y = 0;
 		int lifeSpan = 0;
 		IColor fillStyle = new IColor(random(125,255),random(125,255),random(125,255),125);
 
-		Beam(float x, float y, int lifeSpan) {
+		Beam(float x, float y, float lifeSpan) {
 			set(x,y,lifeSpan);
 		}
 
-		void set(float x, float y, int lifeSpan) {
+		void set(float x, float y, float lifeSpan) {
 			this.x = x;
 			this.y = y;
-			this.lifeSpan = lifeSpan;
+			this.lifeSpan = (int)lifeSpan;
 		}
 
 		void render() {
