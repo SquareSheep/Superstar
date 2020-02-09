@@ -16,10 +16,13 @@ static String songName = "../Music/superstar.mp3";
 IColor defaultFill = new IColor(222,125,222,255);
 IColor defaultStroke = new IColor(255,255,255,255);
 
-Spotlight[] lights;
-Tile[] tiles;
+Spotlight[] light;
+Tile[] floor;
 DiscoBall ball;
 Tail[] tails;
+
+Tile[] tiles;
+Tile[] lightTiles;
 
 void render() {
 	if (timer.beat) println(song.position() + "," + (int)currBeat);
@@ -27,28 +30,28 @@ void render() {
 	
 	if (timer.beat) {
 		cam.ang.p.x += 0.005;
-		for (int i = 0 ; i < lights.length ; i ++) {
-			lights[i].fillStyleSetC(125,255,25);
-			lights[i].fillStyleSetM(0,0,5);
-			lights[i].setIndex(random(binCount));
+		for (int i = 0 ; i < light.length ; i ++) {
+			light[i].fillStyleSetC(125,255,25);
+			light[i].fillStyleSetM(0,0,5);
+			light[i].setIndex(random(binCount));
 			if (random(1) < 0.2) {
-				lights[i].on = true;
-				lights[i].fillStyle.setC(225,255);
-				lights[i].av.P.set(random(-0.01,0.01),random(-0.01,0.01),0);
-				lights[i].ang.P.add(random(-0.5,0),0,random(-0.3,0.3));
+				light[i].on = true;
+				light[i].fillStyle.setC(225,255);
+				light[i].av.P.set(random(-0.01,0.01),random(-0.01,0.01),0);
+				light[i].ang.P.add(random(-0.5,0),0,random(-0.3,0.3));
 			} else {
-				lights[i].on = false;
-				lights[i].homePosition();
-				lights[i].av.reset(0,0,0);
+				light[i].on = false;
+				light[i].homePosition();
+				light[i].av.reset(0,0,0);
 			}
 		}
 
-		for (int i = 0 ; i < tiles.length ; i ++) {
-			tiles[i].fillStyle.setC(125,200);
-			tiles[i].fillStyle.setM(-10,10,random(binCount));
+		for (int i = 0 ; i < floor.length ; i ++) {
+			floor[i].fillStyle.setC(125,200);
+			floor[i].fillStyle.setM(-10,10,random(binCount));
 		}
 
-		ball.beam(random(-PI,PI),0);
+		ball.beams(10);
 	}
 }
 
@@ -62,12 +65,18 @@ void setSketch() {
 
 	int row = 12;
 	float W = 250;
-	tiles = new Tile[row*row];
+
+	tiles = new Tile[row*row+7*3*9];
+	floor = new Tile[row*row];
+
+	int j = 0;
 	for (int i = 0 ; i < row ; i ++) {
 		for (int k = 0 ; k < row ; k ++) {
-			tiles[i*row+k] = new Tile(((float)i-0.5*row)*W+W/2,0,((float)k-0.5*row)*W+W/2, W);
-			tiles[i*row+k].w.setM(0,W*0.003,0,i*row+k);
-			mobs.add(tiles[i*row+k]);
+			floor[j] = new Tile(((float)i-0.5*row)*W+W/2,0,((float)k-0.5*row)*W+W/2, W);
+			floor[j].w.setM(0,W*0.003,0,i*row+k);
+			mobs.add(floor[j]);
+			tiles[j] = floor[j];
+			j++;
 		}
 	}
 
@@ -75,17 +84,42 @@ void setSketch() {
 	float angX = -0.3;
 	float w2 = 140;
 	float D = 420;
-	lights = new Spotlight[row*3];
+	light = new Spotlight[row*3];
+	lightTiles = new Tile[row*3*9];
+	int l = 0;
+
 	for (int i = 0 ; i < row ; i ++) {
-		lights[i] = new Spotlight(((float)i-0.5*row)*D+D/2,back.y,-row*W, angX,0,0, w2);
-		lights[i].rang.reset(-PI/2,0,0);
-		lights[i+row] = new Spotlight(-row*W,back.y,((float)i-0.5*row)*D+D/2, angX,0,0, w2);
-		lights[i+row].rang.reset(-PI/2,0,PI/2);
-		lights[i+row*2] = new Spotlight(row*W,back.y,((float)i-0.5*row)*D+D/2, angX,0,0, w2);
-		lights[i+row*2].rang.reset(-PI/2,0,-PI/2);
-		mobs.add(lights[i]);
-		mobs.add(lights[i+row]);
-		mobs.add(lights[i+row+row]);
+		light[l] = new Spotlight(((float)i-0.5*row)*D+D/2,back.y,-row*W, angX,0,0, w2);
+		light[l].rang.reset(-PI/2,0,0);
+		mobs.add(light[l]);
+		for (int o = 0 ; o < 9 ; o ++) {
+			lightTiles[l*9+o] = light[l].ar[o];
+			tiles[j] = light[l].ar[o];
+			j ++;
+		}
+		l ++;
+	}
+	for (int i = 0 ; i < row ; i ++) {
+		light[l] = new Spotlight(-row*W,back.y,((float)i-0.5*row)*D+D/2, angX,0,0, w2);
+		light[l].rang.reset(-PI/2,0,PI/2);
+		mobs.add(light[l]);
+		for (int o = 0 ; o < 9 ; o ++) {
+			lightTiles[l*9+o] = light[l].ar[o];
+			tiles[j] = light[l].ar[o];
+			j ++;
+		}
+		l ++;
+	}
+	for (int i = 0 ; i < row ; i ++) {
+		light[l] = new Spotlight(row*W,back.y,((float)i-0.5*row)*D+D/2, angX,0,0, w2);
+		light[l].rang.reset(-PI/2,0,-PI/2);
+		mobs.add(light[l]);
+		for (int o = 0 ; o < 9 ; o ++) {
+			lightTiles[l*9+o] = light[l].ar[o];
+			tiles[j] = light[l].ar[o];
+			j ++;
+		}
+		l ++;
 	}
 
 	ball = new DiscoBall(0,back.y*1.1,0,200);

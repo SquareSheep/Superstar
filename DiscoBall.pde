@@ -31,8 +31,9 @@ class DiscoBall extends Mob {
 		fillStyle.fillStyle();
 		strokeStyle.strokeStyle();
 		sphere(w);
+		noStroke();
 		for (Beam mob : ar) {
-			if (mob.lifeSpan != 0) mob.render();
+			if (mob.lifeSpan > 0) mob.render();
 		}
 		translate(0,-de*0.5,0);
 		box(w*0.1,de,w*0.1);
@@ -53,6 +54,20 @@ class DiscoBall extends Mob {
 
 	void beam(float x, float y) {
 		beam(x,y,fpb);
+	}
+
+	void beams(float minX, float maxX, float lifeSpan, int num) {
+		for (int i = 0 ; i < num ; i ++) {
+			beam(random(minX,maxX),random(-PI,PI),lifeSpan);
+		}
+	}
+
+	void beams(float minX, float maxX, int num) {
+		beams(minX,maxX,fpb,num);
+	}
+
+	void beams(int num) {
+		beams(-PI/2,PI/2,fpb,num);
 	}
 
 	class Beam {
@@ -78,8 +93,9 @@ class DiscoBall extends Mob {
 			fillStyle.fillStyle();
 			beginShape();
 			vertex(0,0,0);
-			vertex(-de,0,de*10);
-			vertex(de,0,de*10);
+			vertex(0,-de*0.5,de*5);
+			vertex(0,de*0.5,de*5);
+			endShape();
 			pop();
 		}
 	}
