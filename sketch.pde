@@ -68,6 +68,13 @@ void setSketch() {
 	float W = 250;
 
 	tiles = new Tile[row*row+7*3*9];
+
+	tails = new Tail[row];
+	for (int i = 0 ; i < row ; i ++) {
+		tails[i] = new Tail(((float)i-0.5*row)*W+W/2,-row*W/2,0, PI/2,0,0,100,30);
+		mobs.add(tails[i]);
+	}
+
 	dance = new Tile[row*row];
 
 	int j = 0;
