@@ -94,6 +94,11 @@ class Spotlight extends TileObject {
 		tilt.index = (int)index%binCount;
 		fillStyle.index = (int)index%binCount;
 	}
+
+	void fillStyleSetC(float minC, float maxC, float mRange) {
+		super.fillStyleSetC(minC,maxC,mRange);
+		fillStyle.setC(random(minC,maxC),random(minC,maxC),random(minC,maxC),fillStyle.a.x);
+	}
 }
 class Cube extends TileObject {
 	Cube(float x, float y, float z, float w) {
@@ -175,7 +180,7 @@ class TileObject extends Mob {
 	void render() {
 		setDraw();
 		for (Tile tile : ar) {
-			tile.render();
+			if (tile.draw) tile.render();
 		}
 		pop();
 	}
