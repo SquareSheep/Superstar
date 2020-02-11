@@ -19,40 +19,15 @@ IColor defaultStroke = new IColor(255,255,255,255);
 Spotlight[] light;
 Tile[] dance;
 DiscoBall ball;
-Tail[] tails;
+Tail[] tail;
+Cube[] cube;
 
-Tile[] tiles;
-Tile[] lightTiles;
+Tile[] tailTile;
+Tile[] lightTile;
+Tile[] cubeTile;
 
 void render() {
 	if (timer.beat) println(song.position() + "," + (int)(currBeat+1));
-	//cam.ang.P.add(0.0002*cos((float)frameCount/100-PI/2),0.0003*sin((float)frameCount/100-PI/2),0);
-	
-	if (timer.beat && currBeat >= 44) {
-		// cam.ang.p.x += 0.005;
-		// for (int i = 0 ; i < light.length ; i ++) {
-		// 	light[i].fillStyleSetC(125,255,25);
-		// 	light[i].fillStyleSetM(0,0,5);
-		// 	light[i].setIndex(random(binCount));
-		// 	if (random(1) < 0.2) {
-		// 		light[i].on = true;
-		// 		light[i].fillStyle.setC(225,255);
-		// 		light[i].av.P.set(random(-0.01,0.01),random(-0.01,0.01),0);
-		// 		light[i].ang.P.add(random(-0.5,0),0,random(-0.3,0.3));
-		// 	} else {
-		// 		light[i].on = false;
-		// 		light[i].homePosition();
-		// 		light[i].av.reset(0,0,0);
-		// 	}
-		// }
-
-		// for (int i = 0 ; i < dance.length ; i ++) {
-		// 	dance[i].fillStyle.setC(125,200);
-		// 	dance[i].fillStyle.setM(-10,10,random(binCount));
-		// }
-
-		ball.beams(10);
-	}
 }
 
 void setSketch() {
@@ -60,31 +35,31 @@ void setSketch() {
 	front = new PVector(de*2,de,de*0.2);
 	back = new PVector(-de*2,-de*1.2,-de);
 	cam.ang.mass = 120;
-	
-	int num = 10;
-	float d = de*0.4;
 
-	int row = 12;
+	int row = 8;
+	cube = new Cube[row*row];
+	for (int i = 0 ; i < row*row ; ) {
+		
+	}
+
+	row = 12;
 	float W = 250;
 
-	tiles = new Tile[row*row+7*3*9];
-
-	tails = new Tail[row];
+	tail = new Tail[row];
 	for (int i = 0 ; i < row ; i ++) {
-		tails[i] = new Tail(((float)i-0.5*row)*W+W/2,-row*W/2,0, PI/2,0,0,100,30);
-		mobs.add(tails[i]);
+		tail[i] = new Tail(((float)i-0.5*row)*W+W/2,-row*W/2,0, PI/2,0,0,100,30);
+		for (int k = 0 ; k < tail[i].ar.length ; k ++) {
+			tailTile[i*30+k] = tail[i].ar[k];
+		}
+		mobs.add(tail[i]);
 	}
 
 	dance = new Tile[row*row];
 
-	int j = 0;
 	for (int i = 0 ; i < row ; i ++) {
 		for (int k = 0 ; k < row ; k ++) {
 			dance[j] = new Tile(((float)i-0.5*row)*W+W/2,0,((float)k-0.5*row)*W+W/2, W);
-			//dance[j].w.setM(0,W*0.003,0,i*row+k);
 			mobs.add(dance[j]);
-			tiles[j] = dance[j];
-			j++;
 		}
 	}
 
@@ -93,7 +68,7 @@ void setSketch() {
 	float w2 = 140;
 	float D = 420;
 	light = new Spotlight[row*3];
-	lightTiles = new Tile[row*3*9];
+	lightTile = new Tile[row*3*9];
 	int l = 0;
 
 	for (int i = 0 ; i < row ; i ++) {
@@ -101,9 +76,7 @@ void setSketch() {
 		light[l].rang.reset(-PI/2,0,0);
 		mobs.add(light[l]);
 		for (int o = 0 ; o < 9 ; o ++) {
-			lightTiles[l*9+o] = light[l].ar[o];
-			tiles[j] = light[l].ar[o];
-			j ++;
+			lightTile[l*9+o] = light[l].ar[o];
 		}
 		l ++;
 	}
@@ -112,9 +85,7 @@ void setSketch() {
 		light[l].rang.reset(-PI/2,0,PI/2);
 		mobs.add(light[l]);
 		for (int o = 0 ; o < 9 ; o ++) {
-			lightTiles[l*9+o] = light[l].ar[o];
-			tiles[j] = light[l].ar[o];
-			j ++;
+			lightTile[l*9+o] = light[l].ar[o];
 		}
 		l ++;
 	}
@@ -123,9 +94,7 @@ void setSketch() {
 		light[l].rang.reset(-PI/2,0,-PI/2);
 		mobs.add(light[l]);
 		for (int o = 0 ; o < 9 ; o ++) {
-			lightTiles[l*9+o] = light[l].ar[o];
-			tiles[j] = light[l].ar[o];
-			j ++;
+			lightTile[l*9+o] = light[l].ar[o];
 		}
 		l ++;
 	}

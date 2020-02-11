@@ -18,11 +18,12 @@ void addEvents() {
 	events.add(new PVectorSet(41,cam.ang.P, -0.1,0,0));
 	events.add(new PointReset(41,cam.av, 0,0,0));
 
-	events.add(new TilesFillStyleSetC(43,1000,dance,125,255,-10,10));
-	events.add(new TileObjectsFillStyleSetC(43,1000,light,125,255,100, -10,10,5));
+	events.add(new TilesFillStyleSetC(44,1000,dance,125,255,-10,10));
+	events.add(new TileObjectsFillStyleSetC(44,1000,light,125,255,100, -10,10,5));
+	events.add(new BeamsOn(44,1000,10));
 	events.add(new SetTileObjectsDraw(44,light,true));
 	events.add(new SetEntityDraw(44,ball,true));
-	events.add(new SetTileObjectsDraw(44,tails,false));
+	events.add(new SetTileObjectsDraw(44,tail,false));
 	events.add(new PVectorAdd(44,ball.p.p, 0,-1000,0));
 	for (int i = 0 ; i < light.length ; i ++) {
 		events.add(new PVectorAdd(44, light[i].r.p, 0,0,-500));

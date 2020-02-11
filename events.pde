@@ -1,3 +1,18 @@
+class BeamsOn extends Event {
+	int num;
+
+	BeamsOn(float time, float timeEnd, int num) {
+		super(time,timeEnd);
+		this.num = num;
+	}
+
+	void update() {
+		if (timer.beat) {
+			ball.beams(num);
+		}
+	}
+}
+
 class LightsOnRandom extends Event {
 	Spotlight[] ar;
 	float chance;
