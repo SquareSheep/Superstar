@@ -1,3 +1,48 @@
+/*
+Base events are only useful for changing individual objects at a time
+Make base event versions that work on arrays of objects instead
+
+PointResetList
+PVectorSetList
+...
+
+Can also make special list events like:
+PVectorSwitchRandomList -> On each tick, switches a random selection of PVectors between two given states
+PVectorSetWaveList -> Over the course of the event, set each PVector to the new state
+
+To support creating these events, I need to be able to make arrays of PVectors given their parent objects
+I can make special functions for that, or manually make the lists with for loops inside addEvents()
+
+*/
+
+class FlipTilesRandom extends Event {
+	Tile[] ar;
+	float tick;
+	int num;
+
+	FlipTilesRandom(float time, float timeEnd, Tile[] ar, float tick, int num) {
+		super(time,timeEnd);
+		this.ar = ar; this.tick = tick; this.num = num;
+	}
+
+	void update() {
+		if (frameCount % tick <= 1) {
+			for (int i = 0 ; i < num ; i ++) {
+				//int k = (int)random(ar.length);
+				int k = (int)(noise((float)frameCount+i)*ar.length);
+				switch ((int)random(2)) {
+					case 0:
+					ar[k].ang.P.x = (ar[k].ang.P.x + PI) % (2*PI);
+					break;
+					case 1:
+					ar[k].ang.P.z = (ar[k].ang.P.z + PI) % (2*PI);
+					break;
+				}
+			}
+		}
+	}
+}
+
 class BeamsOn extends Event {
 	int num;
 
@@ -185,6 +230,96 @@ abstract class TilesFillStyle extends Event {
 }
 
 //BASE EVENTS
+class PointResetList extends Event {
+	Point[] ar;
+	float x,y,z,X,Y,Z;
+
+	PointResetList(float time, Point[] ar, float x, float y, float z, float X, float Y, float Z) {
+		super(time,time+1);
+		this.ar = ar;
+		this.x = x; this.y = y; this.z = z;
+		this.X = X; this.Y = Y; this.Z = Z;
+	}
+
+	PointResetList(float time, Point[] ar, float x, float y, float z) {
+		this(time,ar,x,y,z,x,y,z);
+	}
+
+	void spawn() {
+		for (Point p : ar) {
+			p.reset(x,y,z,X,Y,Z);
+		}
+	}
+}
+
+class PointSetMassList extends Event {
+	Point[] ar;
+	float mass;
+
+	PointSetMassList(float time, Point[] ar, float mass) {
+		super(time,time+1);
+		this.ar = ar;
+		this.mass = mass;
+	}
+
+	void spawn() {
+		for (Point p : ar) {
+			p.mass = mass;
+		}
+	}
+}
+
+class PointSetVMultList extends Event {
+	Point[] ar;
+	float vMult;
+
+	PointSetVMultList(float time, Point[] ar, float vMult) {
+		super(time,time+1);
+		this.ar = ar;
+		this.vMult = vMult;
+	}
+
+	void spawn() {
+		for (Point p : ar) {
+			p.vMult = vMult;
+		}
+	}
+}
+
+class PVectorSetList extends Event {
+	PVector[] ar;
+	float x,y,z;
+
+	PVectorSetList(float time, PVector[] ar, float x, float y, float z) {
+		super(time,time+1);
+		this.ar = ar;
+		this.x = x; this.y = y; this.z = z;
+	}
+
+	void spawn() {
+		for (PVector p : ar) {
+			p.set(x,y,z);
+		}
+	}
+}
+
+class PVectorAddList extends Event {
+	PVector[] ar;
+	float x,y,z;
+
+	PVectorAddList(float time, PVector[] ar, float x, float y, float z) {
+		super(time,time+1);
+		this.ar = ar;
+		this.x = x; this.y = y; this.z = z;
+	}
+
+	void spawn() {
+		for (PVector p : ar) {
+			p.add(x,y,z);
+		}
+	}
+}
+
 class PointReset extends Event {
 	Point p;
 	float x,y,z,X,Y,Z;

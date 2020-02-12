@@ -37,15 +37,12 @@ void setSketch() {
 	cam.ang.mass = 120;
 
 	int row = 8;
-	cube = new Cube[row*row];
-	for (int i = 0 ; i < row*row ; ) {
-		
-	}
 
 	row = 12;
 	float W = 250;
 
 	tail = new Tail[row];
+	tailTile = new Tile[row*30];
 	for (int i = 0 ; i < row ; i ++) {
 		tail[i] = new Tail(((float)i-0.5*row)*W+W/2,-row*W/2,0, PI/2,0,0,100,30);
 		for (int k = 0 ; k < tail[i].ar.length ; k ++) {
@@ -55,11 +52,10 @@ void setSketch() {
 	}
 
 	dance = new Tile[row*row];
-
 	for (int i = 0 ; i < row ; i ++) {
 		for (int k = 0 ; k < row ; k ++) {
-			dance[j] = new Tile(((float)i-0.5*row)*W+W/2,0,((float)k-0.5*row)*W+W/2, W);
-			mobs.add(dance[j]);
+			dance[i*row+k] = new Tile(((float)i-0.5*row)*W+W/2,0,((float)k-0.5*row)*W+W/2, W);
+			mobs.add(dance[i*row+k]);
 		}
 	}
 
